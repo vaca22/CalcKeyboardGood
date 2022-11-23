@@ -27,7 +27,7 @@ public class SerialPortHelper {
         this.mSerialPortManager.setOnOpenSerialPortListener(new OnOpenSerialPortListener() { // from class: com.saiyimcu.multimediacomputer.hepler.SerialPortHelper.1
             @Override // com.kongqw.serialportlibrary.listener.OnOpenSerialPortListener
             public void onSuccess(File file) {
-                MyToast.show("串口打开成功：" + file.getPath());
+          //      MyToast.show("串口打开成功：" + file.getPath());
             }
 
             @Override // com.kongqw.serialportlibrary.listener.OnOpenSerialPortListener
