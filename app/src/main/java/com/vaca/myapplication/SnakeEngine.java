@@ -90,7 +90,7 @@ class SnakeEngine extends SurfaceView implements Runnable {
         // Work out how many pixels each block is
         blockSize = screenX / NUM_BLOCKS_WIDE;
         // How many blocks of the same size will fit into the height
-        numBlocksHigh = screenY / blockSize;
+        numBlocksHigh = screenY / blockSize+2;
 
         // Set the sound up
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -101,10 +101,10 @@ class SnakeEngine extends SurfaceView implements Runnable {
             AssetFileDescriptor descriptor;
 
             // Prepare the two sounds in memory
-            descriptor = assetManager.openFd("xx.ogg");
+            descriptor = assetManager.openFd("coin.ogg");
             eat_bob = soundPool.load(descriptor, 0);
 
-            descriptor = assetManager.openFd("heal.ogg");
+            descriptor = assetManager.openFd("brick_smash.ogg");
             snake_crash = soundPool.load(descriptor, 0);
 
         } catch (IOException e) {
