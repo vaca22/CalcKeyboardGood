@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), MessageListener {
                 LogUtil.e("keyvalue=$keyValue")
                 if(keyValue=="+"){
                     if(textView.currentPage<textView.pageCount){
-                        textView.jumpTo(textView.currentPage+1,true)
+                        textView.jumpTo(textView.currentPage+1,false)
                     }
 
                     return@post
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), MessageListener {
 
                 if(keyValue=="-"){
                     if(textView.currentPage>0){
-                        textView.jumpTo(textView.currentPage-1,true)
+                        textView.jumpTo(textView.currentPage-1,false)
                     }
 
                     return@post
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(), MessageListener {
                 if(keyValue=="÷"){
                     if(scale>0.15f){
                         scale-=0.05f
+
                         textView.zoomWithAnimation(scale)
                     }
 
