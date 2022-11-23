@@ -57,6 +57,10 @@ class MainActivity : AppCompatActivity(), MessageListener {
     )
     var scale=1f;
 
+    override fun onStart() {
+        hideBottomUIMenu()
+        super.onStart()
+    }
     override fun handleMessage(message: Message) {
         if (message.what == MsgConstant.KEY_EVENT_MSG) {
             mWeakHandler.post {
@@ -73,31 +77,32 @@ class MainActivity : AppCompatActivity(), MessageListener {
                     return@post
                 }
 
-                if(keyValue=="-"){
-                    if(textView.currentPage>0){
-                        textView.jumpTo(textView.currentPage-1,false)
+                when(keyValue){
+                    "="->{
+                        BleServer.setTopApp(MyApplication.application)
                     }
-
-                    return@post
-                }
-                if(keyValue=="×"){
-                    scale+=0.05f
-                    textView.zoomWithAnimation(scale)
-
-
-                    return@post
-                }
-                if(keyValue=="÷"){
-                    if(scale>0.15f){
-                        scale-=0.05f
-
+                    "-"->{
+                        if(textView.currentPage>0){
+                            textView.jumpTo(textView.currentPage-1,false)
+                        }
+                    }
+                    "×"->{
+                        scale+=0.05f
                         textView.zoomWithAnimation(scale)
                     }
+                    "÷"->{
+                        if(scale>0.15f){
+                            scale-=0.05f
 
-                    return@post
+                            textView.zoomWithAnimation(scale)
+                        }
+                    }
                 }
 
-                // textView.text=keyValue
+
+
+
+
                 try {
                     val c = keyValue.toInt()
                     uri = Uri.parse(
