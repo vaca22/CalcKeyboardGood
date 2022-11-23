@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity(), MessageListener {
         R.raw.g21,
         R.raw.a21,
         R.raw.b21,
+        R.raw.d11,
+        R.raw.c11,
     )
     var scale=1f;
 
