@@ -1,4 +1,4 @@
-package com.vaca.myapplication.calc;
+package com.vaca.myapplication.calc.helper;
 
 import android.content.Context;
 import android.os.Message;
@@ -9,6 +9,10 @@ import com.kongqw.serialportlibrary.listener.OnOpenSerialPortListener;
 import com.kongqw.serialportlibrary.listener.OnSerialPortDataListener;
 
 import com.vaca.myapplication.MyApplication;
+import com.vaca.myapplication.calc.KeyBoardEvent;
+import com.vaca.myapplication.calc.MsgConstant;
+import com.vaca.myapplication.calc.utils.LogUtil;
+import com.vaca.myapplication.calc.utils.MyToast;
 
 import java.io.File;
 import java.text.DecimalFormatSymbols;

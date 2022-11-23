@@ -6,7 +6,7 @@ import android.os.Message;
 
 
 import com.vaca.myapplication.calc.MessageListener;
-import com.vaca.myapplication.calc.SerialPortHelper;
+import com.vaca.myapplication.calc.helper.SerialPortHelper;
 
 import java.util.ArrayList;
 import java.util.List;

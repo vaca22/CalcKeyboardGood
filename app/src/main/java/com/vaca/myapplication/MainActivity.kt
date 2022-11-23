@@ -11,27 +11,32 @@ import android.os.Looper
 import android.os.Message
 import android.os.PowerManager
 import android.util.Log
+import android.view.Gravity
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.github.barteksc.pdfviewer.PDFView
 import com.vaca.myapplication.calc.*
+import com.vaca.myapplication.calc.pop.JumpPop
+import com.vaca.myapplication.calc.utils.LogUtil
+import com.vaca.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MessageListener {
-
+    var jumpPop: JumpPop? = null
     fun hideBottomUIMenu() {
 
             window.decorView.systemUiVisibility = 4102
 
     }
-
+    lateinit var binding: ActivityMainBinding
 
     lateinit var textView: PDFView
     var asyncPlayer = AsyncPlayer(null)
     var uri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding=ActivityMainBinding.inflate(layoutInflater)
         hideBottomUIMenu()
 
         val window = getWindow();
@@ -42,8 +47,8 @@ class MainActivity : AppCompatActivity(), MessageListener {
         layoutParams.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        setContentView(R.layout.activity_main)
-        textView = findViewById(R.id.pdfView)
+        setContentView(binding.root)
+        textView =binding.pdfView
         MyApplication.addMessageListener(this)
 
         textView.fromAsset("aa.pdf").load()
@@ -167,6 +172,11 @@ class MainActivity : AppCompatActivity(), MessageListener {
 
                         }
 
+                    }
+                    "DEL"->{
+                        jumpPop =
+                            JumpPop(this@MainActivity, 53,binding.pdfView.pageCount)
+                       jumpPop?.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
                     }
                     else->{
 
