@@ -3,40 +3,29 @@ package com.vaca.myapplication
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
-import android.media.AsyncPlayer
-import android.media.AudioManager
-import android.net.Uri
+import android.graphics.Point
 import android.os.Bundle
 import android.os.Looper
 import android.os.Message
 import android.os.PowerManager
 import android.util.Log
-import android.view.Gravity
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.github.barteksc.pdfviewer.PDFView
 import com.vaca.myapplication.calc.*
 import com.vaca.myapplication.calc.pop.JumpPop
 import com.vaca.myapplication.calc.utils.LogUtil
-import com.vaca.myapplication.databinding.ActivityMainBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MessageListener {
     var jumpPop: JumpPop? = null
     fun hideBottomUIMenu() {
-
             window.decorView.systemUiVisibility = 4102
-
     }
-    lateinit var binding: ActivityMainBinding
 
-    lateinit var textView: PDFView
-    var asyncPlayer = AsyncPlayer(null)
-    var uri: Uri? = null
+    private lateinit var snakeEngine: SnakeEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityMainBinding.inflate(layoutInflater)
+
         hideBottomUIMenu()
 
         val window = getWindow();
@@ -47,35 +36,24 @@ class MainActivity : AppCompatActivity(), MessageListener {
         layoutParams.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        setContentView(binding.root)
-        textView =binding.pdfView
+
+
+        val display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        snakeEngine = SnakeEngine(this, size)
+        setContentView(snakeEngine)
         MyApplication.addMessageListener(this)
-
-        textView.fromAsset("aa.pdf").load()
-
-
         adminReceiver = ComponentName(this@MainActivity, ScreenOffAdminReceiver::class.java)
         mPowerManager = getSystemService(POWER_SERVICE) as PowerManager
         policyManager =
             this@MainActivity.getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
-
         checkAndTurnOnDeviceManager()
     }
 
     private val mWeakHandler: WeakHandler = WeakHandler(Looper.getMainLooper())
 
-    val sound = listOf<Int>(
-        R.raw.g11,
-        R.raw.c21,
-        R.raw.d21,
-        R.raw.e21,
-        R.raw.f21,
-        R.raw.g21,
-        R.raw.a21,
-        R.raw.b21,
-        R.raw.d11,
-        R.raw.c11,
-    )
+
     var scale=1f;
 
     override fun onStart() {
@@ -137,89 +115,19 @@ class MainActivity : AppCompatActivity(), MessageListener {
                 val keyValue: String = keyBoardEvent.getKeyValue()
                 val keyCode: Byte = keyBoardEvent.getKeyCode()
                 LogUtil.e("keyvalue=$keyValue")
-                BleServer.setTopApp(MyApplication.application)
-
+                checkScreenOn()
                 when(keyValue){
-                    "+"->{
-                        if(textView.currentPage<textView.pageCount-1){
-                            textView.jumpTo(textView.currentPage+1,false)
-                        }
-
+                   "1"->{
+                        snakeEngine.changeHeading(SnakeEngine.Heading.LEFT)
+                   }
+                    "2"->{
+                        snakeEngine.changeHeading(SnakeEngine.Heading.DOWN)
                     }
-
-                    "-"->{
-                        if(textView.currentPage>0){
-                            textView.jumpTo(textView.currentPage-1,false)
-                        }
+                    "3"->{
+                        snakeEngine.changeHeading(SnakeEngine.Heading.RIGHT)
                     }
-                    "×"->{
-                        scale+=0.05f
-                        textView.zoomWithAnimation(scale)
-                    }
-                    "÷"->{
-                        if(scale>0.15f){
-                            scale-=0.05f
-
-                            textView.zoomWithAnimation(scale)
-                        }
-                    }
-                    "."->{
-                        BleServer.dataScope.launch {
-                            if(checkScreen()){
-                                delay(100)
-                                checkScreenOff()
-                            }
-
-                        }
-
-                    }
-                    "CA"->{
-                        jumpNum=-1;
-                        jumpPop?.changePage(-1);
-                    }
-                    "=", "DEL"->{
-                        if(jumpPop==null){
-                            jumpNum=-1
-                            jumpPop =
-                                JumpPop(this@MainActivity, binding.pdfView.currentPage+1,binding.pdfView.pageCount)
-                            jumpPop?.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
-                        }else{
-                            if(jumpNum>0){
-                                binding.pdfView.jumpTo(jumpNum-1)
-                            }
-                            jumpNum=-2
-                            jumpPop?.dismiss()
-                            jumpPop=null
-                            hideBottomUIMenu()
-                        }
-
-                    }
-                    else->{
-
-                        try {
-                            val c = keyValue.toInt()
-                            if(jumpNum==-1){
-                                jumpNum=0;
-                            }
-                            if(jumpNum>=0){
-                                jumpNum=jumpNum*10+c;
-                            }
-
-                            jumpPop?.changePage(jumpNum)
-                            uri = Uri.parse(
-                                "android.resource://" + MyApplication.application.getPackageName()
-                                    .toString() + "/" + sound[c]
-                            )
-                            asyncPlayer.play(
-                                MyApplication.application,
-                                uri,
-                                false,
-                                AudioManager.STREAM_MUSIC
-                            )
-                        } catch (e: Exception) {
-
-                        }
-
+                    "5"->{
+                        snakeEngine.changeHeading(SnakeEngine.Heading.UP)
                     }
                 }
 
@@ -229,5 +137,16 @@ class MainActivity : AppCompatActivity(), MessageListener {
 
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        snakeEngine.resume()
+    }
+
+    // Stop the thread in snakeEngine
+    override fun onPause() {
+        super.onPause()
+        snakeEngine.pause()
     }
 }
