@@ -190,6 +190,7 @@ class MainActivity : AppCompatActivity(), MessageListener {
                             jumpNum=-2
                             jumpPop?.dismiss()
                             jumpPop=null
+                            hideBottomUIMenu()
                         }
 
                     }
