@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), MessageListener {
         policyManager =
             this@MainActivity.getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
-        checkAndTurnOnDeviceManager(null)
+        checkAndTurnOnDeviceManager()
     }
 
     private val mWeakHandler: WeakHandler = WeakHandler(Looper.getMainLooper())
@@ -85,7 +85,10 @@ class MainActivity : AppCompatActivity(), MessageListener {
     lateinit var policyManager: DevicePolicyManager
     lateinit var adminReceiver: ComponentName
 
-    fun checkScreenOff(view: View?) {
+    /**
+     * 息屏
+     */
+    fun checkScreenOff() {
         val admin = policyManager.isAdminActive(adminReceiver)
         if (admin) {
             policyManager.lockNow()
@@ -94,8 +97,32 @@ class MainActivity : AppCompatActivity(), MessageListener {
         }
     }
 
+    /**
+     * @param view 检测屏幕状态
+     */
+    fun checkScreen(view: View?) {
+        val pm = getSystemService(POWER_SERVICE) as PowerManager
+        val screenOn = pm.isScreenOn
+        if (!screenOn) { //如果灭屏
+            //相关操作
 
-    fun checkAndTurnOnDeviceManager(view: View?) {
+        } else {
+
+        }
+    }
+    /**
+     * @param view 亮屏
+     */
+    fun checkScreenOn() {
+        mWakeLock = mPowerManager.newWakeLock(
+            PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+            "tag"
+        )
+        mWakeLock.acquire()
+        mWakeLock.release()
+    }
+
+    fun checkAndTurnOnDeviceManager() {
         val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminReceiver)
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "开启后就可以使用锁屏功能了...") //显示位置见图二
@@ -141,7 +168,9 @@ class MainActivity : AppCompatActivity(), MessageListener {
                     "."->{
                         BleServer.dataScope.launch {
                             delay(1000)
-                            checkScreenOff(null)
+                            checkScreenOff()
+                            delay(2000)
+                            checkScreenOn()
                         }
 
                     }
