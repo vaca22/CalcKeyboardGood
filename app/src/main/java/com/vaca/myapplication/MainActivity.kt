@@ -127,6 +127,8 @@ class MainActivity : AppCompatActivity(), MessageListener {
         startActivityForResult(intent, 0)
     }
 
+    var jumpNum=-2;
+
     override fun handleMessage(message: Message) {
         if (message.what == MsgConstant.KEY_EVENT_MSG) {
             mWeakHandler.post {
@@ -135,18 +137,16 @@ class MainActivity : AppCompatActivity(), MessageListener {
                 val keyValue: String = keyBoardEvent.getKeyValue()
                 val keyCode: Byte = keyBoardEvent.getKeyCode()
                 LogUtil.e("keyvalue=$keyValue")
-                if(keyValue=="+"){
-                    if(textView.currentPage<textView.pageCount){
-                        textView.jumpTo(textView.currentPage+1,false)
-                    }
-
-                    return@post
-                }
+                BleServer.setTopApp(MyApplication.application)
 
                 when(keyValue){
-                    "="->{
-                        BleServer.setTopApp(MyApplication.application)
+                    "+"->{
+                        if(textView.currentPage<textView.pageCount-1){
+                            textView.jumpTo(textView.currentPage+1,false)
+                        }
+
                     }
+
                     "-"->{
                         if(textView.currentPage>0){
                             textView.jumpTo(textView.currentPage-1,false)
@@ -173,15 +173,35 @@ class MainActivity : AppCompatActivity(), MessageListener {
                         }
 
                     }
-                    "DEL"->{
-                        jumpPop =
-                            JumpPop(this@MainActivity, 53,binding.pdfView.pageCount)
-                       jumpPop?.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
+                    "CA"->{
+                        jumpNum=-1;
+                        jumpPop?.changePage(-1);
+                    }
+                    "=", "DEL"->{
+                        if(jumpPop==null){
+                            jumpNum=-1
+                            jumpPop =
+                                JumpPop(this@MainActivity, binding.pdfView.currentPage+1,binding.pdfView.pageCount)
+                            jumpPop?.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
+                        }else{
+                            if(jumpNum>0){
+                                binding.pdfView.jumpTo(jumpNum-1)
+                            }
+                            jumpNum=-2
+                            jumpPop?.dismiss()
+                            jumpPop=null
+                        }
+
                     }
                     else->{
 
                         try {
                             val c = keyValue.toInt()
+                            if(jumpNum==-1){
+                                jumpNum=0;
+                            }
+                            jumpNum=jumpNum*10+c;
+                            jumpPop?.changePage(jumpNum)
                             uri = Uri.parse(
                                 "android.resource://" + MyApplication.application.getPackageName()
                                     .toString() + "/" + sound[c]
