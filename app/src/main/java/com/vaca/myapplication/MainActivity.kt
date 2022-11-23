@@ -200,7 +200,10 @@ class MainActivity : AppCompatActivity(), MessageListener {
                             if(jumpNum==-1){
                                 jumpNum=0;
                             }
-                            jumpNum=jumpNum*10+c;
+                            if(jumpNum>=0){
+                                jumpNum=jumpNum*10+c;
+                            }
+
                             jumpPop?.changePage(jumpNum)
                             uri = Uri.parse(
                                 "android.resource://" + MyApplication.application.getPackageName()
