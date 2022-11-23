@@ -2,8 +2,12 @@ package com.vaca.myapplication
 
 import android.app.ActivityManager
 import android.content.Context
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 object BleServer {
+    val dataScope = CoroutineScope(Dispatchers.IO)
+
     fun setTopApp(context: Context) {
 //        if (!isRunningForeground(context)) {
         /**获取ActivityManager*/

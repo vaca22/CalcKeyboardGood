@@ -1,16 +1,23 @@
 package com.vaca.myapplication
 
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
+import android.content.Intent
 import android.media.AsyncPlayer
 import android.media.AudioManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.os.Message
+import android.os.PowerManager
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.github.barteksc.pdfviewer.PDFView
 import com.vaca.myapplication.calc.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MessageListener {
 
@@ -41,6 +48,14 @@ class MainActivity : AppCompatActivity(), MessageListener {
         MyApplication.addMessageListener(this)
 
         textView.fromAsset("aa.pdf").load()
+
+
+        adminReceiver = ComponentName(this@MainActivity, ScreenOffAdminReceiver::class.java)
+        mPowerManager = getSystemService(POWER_SERVICE) as PowerManager
+        policyManager =
+            this@MainActivity.getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+
+        checkAndTurnOnDeviceManager(null)
     }
 
     private val mWeakHandler: WeakHandler = WeakHandler(Looper.getMainLooper())
@@ -63,6 +78,30 @@ class MainActivity : AppCompatActivity(), MessageListener {
         hideBottomUIMenu()
         super.onStart()
     }
+    lateinit var  mPowerManager: PowerManager
+    lateinit var mWakeLock: PowerManager.WakeLock
+
+
+    lateinit var policyManager: DevicePolicyManager
+    lateinit var adminReceiver: ComponentName
+
+    fun checkScreenOff(view: View?) {
+        val admin = policyManager.isAdminActive(adminReceiver)
+        if (admin) {
+            policyManager.lockNow()
+        } else {
+           Log.e("fuck","没有设备管理权限")
+        }
+    }
+
+
+    fun checkAndTurnOnDeviceManager(view: View?) {
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminReceiver)
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "开启后就可以使用锁屏功能了...") //显示位置见图二
+        startActivityForResult(intent, 0)
+    }
+
     override fun handleMessage(message: Message) {
         if (message.what == MsgConstant.KEY_EVENT_MSG) {
             mWeakHandler.post {
@@ -99,27 +138,37 @@ class MainActivity : AppCompatActivity(), MessageListener {
                             textView.zoomWithAnimation(scale)
                         }
                     }
+                    "."->{
+                        BleServer.dataScope.launch {
+                            delay(1000)
+                            checkScreenOff(null)
+                        }
+
+                    }
+                    else->{
+
+                        try {
+                            val c = keyValue.toInt()
+                            uri = Uri.parse(
+                                "android.resource://" + MyApplication.application.getPackageName()
+                                    .toString() + "/" + sound[c]
+                            )
+                            asyncPlayer.play(
+                                MyApplication.application,
+                                uri,
+                                false,
+                                AudioManager.STREAM_MUSIC
+                            )
+                        } catch (e: Exception) {
+
+                        }
+
+                    }
                 }
 
 
 
 
-
-                try {
-                    val c = keyValue.toInt()
-                    uri = Uri.parse(
-                        "android.resource://" + MyApplication.application.getPackageName()
-                            .toString() + "/" + sound[c]
-                    )
-                    asyncPlayer.play(
-                        MyApplication.application,
-                        uri,
-                        false,
-                        AudioManager.STREAM_MUSIC
-                    )
-                } catch (e: Exception) {
-
-                }
 
             }
         }
