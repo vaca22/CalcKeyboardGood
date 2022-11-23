@@ -3,6 +3,12 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven{ url 'https://dueros.baidu.com/maven/repository/maven-releases/'}
     }
 }
 dependencyResolutionManagement {
@@ -10,6 +16,13 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven{ url 'https://dueros.baidu.com/maven/repository/maven-releases/'}
+
     }
 }
 rootProject.name = "My Application"
