@@ -11,7 +11,6 @@ import android.os.Looper
 import android.os.Message
 import android.os.PowerManager
 import android.util.Log
-import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.github.barteksc.pdfviewer.PDFView
@@ -100,15 +99,9 @@ class MainActivity : AppCompatActivity(), MessageListener {
     /**
      * @param view 检测屏幕状态
      */
-    fun checkScreen(view: View?) {
+    fun checkScreen(): Boolean {
         val pm = getSystemService(POWER_SERVICE) as PowerManager
-        val screenOn = pm.isScreenOn
-        if (!screenOn) { //如果灭屏
-            //相关操作
-
-        } else {
-
-        }
+        return pm.isScreenOn
     }
     /**
      * @param view 亮屏
@@ -167,8 +160,11 @@ class MainActivity : AppCompatActivity(), MessageListener {
                     }
                     "."->{
                         BleServer.dataScope.launch {
-                            delay(100)
-                            checkScreenOff()
+                            if(checkScreen()){
+                                delay(100)
+                                checkScreenOff()
+                            }
+
                         }
 
                     }
