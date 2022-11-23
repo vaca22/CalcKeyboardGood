@@ -167,10 +167,8 @@ class MainActivity : AppCompatActivity(), MessageListener {
                     }
                     "."->{
                         BleServer.dataScope.launch {
-                            delay(1000)
+                            delay(100)
                             checkScreenOff()
-                            delay(2000)
-                            checkScreenOn()
                         }
 
                     }
