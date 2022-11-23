@@ -3,20 +3,31 @@ package com.vaca.myapplication
 import android.media.AsyncPlayer
 import android.media.AudioManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.os.Message
 import android.view.WindowManager
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.barteksc.pdfviewer.PDFView
 import com.vaca.myapplication.calc.*
 
 class MainActivity : AppCompatActivity(), MessageListener {
+
+    fun hideBottomUIMenu() {
+
+            window.decorView.systemUiVisibility = 4102
+
+    }
+
+
     lateinit var textView: PDFView
     var asyncPlayer = AsyncPlayer(null)
     var uri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        hideBottomUIMenu()
+
         val window = getWindow();
         val layoutParams = window.getAttributes();
 
@@ -24,7 +35,7 @@ class MainActivity : AppCompatActivity(), MessageListener {
             WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         textView = findViewById(R.id.pdfView)
         MyApplication.addMessageListener(this)
