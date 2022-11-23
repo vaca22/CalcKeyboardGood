@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
 public class MyApplication extends Application {
     public static final int DESTORY_APPLICATION = 202013;
-    private static MyApplication application;
+    public static MyApplication application;
     private static List<MessageListener> listMessageListener = new CopyOnWriteArrayList();
     private static List<Activity> mActivitys = new ArrayList();
     private static boolean isFirst = true;
