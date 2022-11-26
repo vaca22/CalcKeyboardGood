@@ -11,7 +11,9 @@ import android.view.KeyEvent
 import android.view.View
 import com.hp.primecalculator.CalcApplication
 import com.hp.primecalculator.R
+import com.hp.primecalculator.calc.KeyBoardEvent
 import com.hp.primecalculator.calc.MessageListener
+import com.hp.primecalculator.calc.MsgConstant
 import com.hp.primecalculator.calc.WeakHandler
 import com.hp.primecalculator.manager.NativeThreadHandler
 import com.hp.primecalculator.manager.TouchHandler
@@ -130,26 +132,22 @@ class MainActivity : Activity(), MessageListener {
         super.onPause()
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        Log.e("fuck", "gaga")
-        return super.onKeyDown(keyCode, event)
-    }
 
-    override fun dispatchKeyEvent(keyEvent: KeyEvent): Boolean {
-        Log.e("fuck", "gaga")
-        if (keyEvent.keyCode == 62 || keyEvent.keyCode == 66) {
-            if (keyEvent.action == 1) {
-                return onKeyUp(keyEvent.keyCode, keyEvent)
-            }
-            if (keyEvent.action == 0) {
-                return onKeyDown(keyEvent.keyCode, keyEvent)
-            }
-        }
-        return super.dispatchKeyEvent(keyEvent)
-    }
+
+
 
     private val mWeakHandler = WeakHandler(Looper.getMainLooper())
-    override fun handleMessage(message: Message) {}
+    override fun handleMessage(message: Message) {
+        if (message.what == MsgConstant.KEY_EVENT_MSG) {
+            mWeakHandler.post {
+                var c: Char
+                val keyBoardEvent: KeyBoardEvent = message.obj as KeyBoardEvent
+                val keyValue: String = keyBoardEvent.getKeyValue()
+                val keyCode: Byte = keyBoardEvent.getKeyCode()
+                Log.e("fuck",keyCode.toUInt().toString())
+            }
+        }
+    }
 
 
     init {

@@ -47,7 +47,7 @@ public class SerialPortHelper {
 
             @Override // com.kongqw.serialportlibrary.listener.OnSerialPortDataListener
             public void onDataReceived(byte[] bArr) {
-                LogUtil.d(">>received data: " + StringHelper.byte2Hex(bArr));
+               // LogUtil.d(">>received data: " + StringHelper.byte2Hex(bArr));
                 if (SerialPortHelper.mKeyArrays != null) {
                     Message obtain = Message.obtain();
                     obtain.what = MsgConstant.KEY_EVENT_MSG;
