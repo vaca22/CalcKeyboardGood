@@ -30,6 +30,8 @@ class MainActivity : Activity(), MessageListener {
     external fun FactoryReset(i: Int);
     external fun NetworkScreen();
     external fun OnLanguageChange(i: Int);
+
+
     lateinit var virtualLcdManager: VirtualLcdManager
 
     @SuppressLint("ClickableViewAccessibility")
