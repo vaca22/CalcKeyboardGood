@@ -2,12 +2,13 @@ package com.hp.primecalculator
 
 import android.app.ActivityManager
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 object BleServer {
     val dataScope = CoroutineScope(Dispatchers.IO)
-
+    val mainBattery = MutableLiveData<Int>()
     fun setTopApp(context: Context) {
 //        if (!isRunningForeground(context)) {
         /**获取ActivityManager*/

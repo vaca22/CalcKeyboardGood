@@ -2,8 +2,7 @@ package com.hp.primecalculator.activity
 
 import android.annotation.SuppressLint
 import android.app.admin.DevicePolicyManager
-import android.content.ComponentName
-import android.content.Intent
+import android.content.*
 import android.graphics.PointF
 import android.os.Bundle
 import android.os.Looper
@@ -11,6 +10,7 @@ import android.os.Message
 import android.os.PowerManager
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.hp.primecalculator.BleServer
 import com.hp.primecalculator.CalcApplication
 import com.hp.primecalculator.R
@@ -179,6 +179,15 @@ class MainActivity : BaseActivity(), MessageListener {
         mPowerManager = getSystemService(POWER_SERVICE) as PowerManager
         policyManager =
             this@MainActivity.getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+
+
+
+
+
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
+        registerReceiver(systemReceiver, intentFilter)
+
     }
 
     var haveClick=false
@@ -236,6 +245,7 @@ class MainActivity : BaseActivity(), MessageListener {
     )
 
     override fun onDestroy() {
+        unregisterReceiver(systemReceiver)
         CalcApplication.removeMessageListener(this)
         super.onDestroy()
     }
@@ -280,4 +290,20 @@ class MainActivity : BaseActivity(), MessageListener {
     }
 
 
+
+    private val systemReceiver = SystemReceiver()
+
+    inner class SystemReceiver : BroadcastReceiver() {
+        @SuppressLint("SetTextI18n")
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent!!.action) {
+
+                Intent.ACTION_BATTERY_CHANGED -> {
+                    val level = intent.getIntExtra("level", 0);
+                    val scale = intent.getIntExtra("scale", 100);
+                    BleServer.mainBattery.postValue((level * 100) / scale)
+                }
+            }
+        }
+    }
 }
