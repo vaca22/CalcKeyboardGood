@@ -93,6 +93,7 @@ class MainActivity : BaseActivity(), MessageListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e("ccTimeFuck",android.os.SystemClock.elapsedRealtime().toString())
         setContentView(R.layout.activity_main)
         virtualLcdManager = findViewById(R.id.vLcdManager)
         CalcApplication.addMessageListener(this)
@@ -178,8 +179,9 @@ class MainActivity : BaseActivity(), MessageListener {
         mPowerManager = getSystemService(POWER_SERVICE) as PowerManager
         policyManager =
             this@MainActivity.getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        //checkAndTurnOnDeviceManager()
     }
+
+    var haveClick=false
 
 
     override fun onResume() {
@@ -189,8 +191,9 @@ class MainActivity : BaseActivity(), MessageListener {
 
 
     override fun onPause() {
-       SettingsItemClickListener.SaveCalcData()
-
+        if(haveClick){
+            SettingsItemClickListener.SaveCalcData()
+        }
         virtualLcdManager.StopScreenThread()
         super.onPause()
     }
