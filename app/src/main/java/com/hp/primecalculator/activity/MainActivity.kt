@@ -13,6 +13,7 @@ import android.os.PowerManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import com.hp.primecalculator.BleServer
 import com.hp.primecalculator.CalcApplication
 import com.hp.primecalculator.R
@@ -24,10 +25,11 @@ import com.hp.primecalculator.calc.WeakHandler
 import com.hp.primecalculator.manager.NativeThreadHandler
 import com.hp.primecalculator.manager.TouchHandler
 import com.hp.primecalculator.manager.VirtualLcdManager
+import com.hp.primecalculator.manager.setting.SettingsItemClickListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainActivity : Activity(), MessageListener {
+class MainActivity : BaseActivity(), MessageListener {
     external fun mDnsFound(str: String?, str2: String?, i: Int, str3: String?, z: Boolean)
     external fun mDnsGone(str: String?)
     external fun nativeInit(str: String?, str2: String?)
@@ -96,10 +98,10 @@ class MainActivity : Activity(), MessageListener {
 
 
 
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = 4102
+      super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         virtualLcdManager = findViewById(R.id.vLcdManager)
         CalcApplication.addMessageListener(this)
@@ -196,7 +198,7 @@ class MainActivity : Activity(), MessageListener {
     }
 
     override fun onPause() {
-       // SaveCalcData()
+        SettingsItemClickListener.SaveCalcData()
         virtualLcdManager.StopScreenThread()
         super.onPause()
     }
@@ -239,6 +241,11 @@ class MainActivity : Activity(), MessageListener {
 
     )
 
+    override fun onDestroy() {
+        CalcApplication.removeMessageListener(this)
+        super.onDestroy()
+    }
+
 
     private val mWeakHandler = WeakHandler(Looper.getMainLooper())
     override fun handleMessage(message: Message) {
@@ -261,6 +268,8 @@ class MainActivity : Activity(), MessageListener {
                         if(checkScreen()){
                             delay(100)
                             checkScreenOff()
+                        }else{
+                            hideThing()
                         }
 
                     }

@@ -34,10 +34,13 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name="com.hp.primecalculator.activity.MainActivity"
+            android:launchMode="singleInstance"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape"
             android:alwaysRetainTaskState="true"
             android:excludeFromRecents="true" android:noHistory="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:name="com.hp.primecalculator.activity.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +54,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name="com.hp.primecalculator.activity.MainActivity" android:hardwareAccelerated="true" android:screenOrientation="landscape"/>
+
         <provider android:name="com.hp.primecalculator.fileprovider.FileProvider" android:exported="true" android:authorities="com.hp.primecalculator"/>
         <receiver
             android:name="com.hp.primecalculator.ScreenOffAdminReceiver"
