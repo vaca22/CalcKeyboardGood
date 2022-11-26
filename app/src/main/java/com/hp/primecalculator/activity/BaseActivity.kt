@@ -14,6 +14,10 @@ abstract class BaseActivity:Activity() {
         super.onStart()
     }
 
+    fun tooEarly():Boolean{
+        return android.os.SystemClock.elapsedRealtime()<38000
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideThing()

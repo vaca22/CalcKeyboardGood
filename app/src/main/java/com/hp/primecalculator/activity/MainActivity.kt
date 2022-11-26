@@ -196,7 +196,7 @@ class MainActivity : BaseActivity(), MessageListener {
 
     override fun onPause() {
         if(haveClick){
-            if(android.os.SystemClock.elapsedRealtime()>38000){
+            if(!tooEarly()){
                 Log.e("ccTime",android.os.SystemClock.elapsedRealtime().toString())
                 SettingsItemClickListener.SaveCalcData()
             }
@@ -252,6 +252,9 @@ class MainActivity : BaseActivity(), MessageListener {
     override fun handleMessage(message: Message) {
         if (message.what == MsgConstant.KEY_EVENT_MSG) {
             haveClick=true
+            if(tooEarly()){
+                return
+            }
             mWeakHandler.post {
                 var c: Char
                 val keyBoardEvent: KeyBoardEvent = message.obj as KeyBoardEvent
