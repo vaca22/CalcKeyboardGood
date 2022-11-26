@@ -8,6 +8,12 @@ abstract class BaseActivity:Activity() {
     fun hideThing(){
         window.decorView.systemUiVisibility = 4102
     }
+
+    override fun onStart() {
+        hideThing()
+        super.onStart()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideThing()
