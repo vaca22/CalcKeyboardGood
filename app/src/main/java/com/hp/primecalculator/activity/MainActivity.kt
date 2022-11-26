@@ -136,6 +136,41 @@ class MainActivity : Activity(), MessageListener {
 
 
 
+    val keyMap= mapOf<Int,Int>(
+        1 to 41,
+       2 to 36,
+       3 to 48,
+       4 to  29,
+       5 to  47,
+       6 to 42,
+       7 to 43,
+       8 to 44,
+       9 to 37,
+       10 to  38,
+       11 to 39,
+        12 to 32,
+        13 to 33,
+        14 to 34,
+        15 to 21,
+        16 to 27,
+        17 to 31,
+        18 to 19,
+        19 to 70,
+        20 to 22,
+        21 to 23,
+        22 to 28,
+        23 to 15,
+        24 to 16,
+        25 to 24,
+        26 to 40,
+        27 to 50,
+        28 to 25,
+        29 to 35,
+        30 to 45,
+        31 to 30
+
+
+    )
 
 
     private val mWeakHandler = WeakHandler(Looper.getMainLooper())
@@ -146,7 +181,15 @@ class MainActivity : Activity(), MessageListener {
                 val keyBoardEvent: KeyBoardEvent = message.obj as KeyBoardEvent
                 val keyValue: String = keyBoardEvent.getKeyValue()
                 val keyCode: Byte = keyBoardEvent.getKeyCode()
-                Log.e("fuck",keyCode.toUInt().toString())
+
+                val code=keyCode.toUInt().toInt()
+                Log.e("fuck",code.toString())
+                val mm:Int?=keyMap.get(code);
+                mm?.let {
+                    TouchHandler.GUIPressKey(it)
+                }
+
+
             }
         }
     }

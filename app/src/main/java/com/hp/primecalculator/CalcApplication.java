@@ -9,9 +9,11 @@ import com.hp.primecalculator.calc.helper.SerialPortHelper;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CalcApplication extends Application {
+    public static Map r;
     private static List<MessageListener> listMessageListener = new CopyOnWriteArrayList();
     public static CalcApplication application;
     public static String G;
