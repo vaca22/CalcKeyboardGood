@@ -245,13 +245,9 @@ class MainActivity : BaseActivity(), MessageListener {
     override fun handleMessage(message: Message) {
         if (message.what == MsgConstant.KEY_EVENT_MSG) {
             mWeakHandler.post {
-                var c: Char
                 val keyBoardEvent: KeyBoardEvent = message.obj as KeyBoardEvent
-                val keyValue: String = keyBoardEvent.getKeyValue()
                 val keyCode: Byte = keyBoardEvent.getKeyCode()
-
                 val code = keyCode.toUInt().toInt()
-                Log.e("fuck", code.toString())
                 val mm: Int? = keyMap.get(code);
                 mm?.let {
                     TouchHandler.GUIPressKey(it)
