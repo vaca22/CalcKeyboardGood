@@ -87,7 +87,6 @@ class MainActivity : BaseActivity(), MessageListener {
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminReceiver)
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "开启后就可以使用锁屏功能了...") //显示位置见图二
         startActivityForResult(intent, 0)
-        Log.e("fuck","asas")
     }
 
 
