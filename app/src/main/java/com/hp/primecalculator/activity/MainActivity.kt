@@ -97,7 +97,6 @@ class MainActivity : BaseActivity(), MessageListener {
         virtualLcdManager = findViewById(R.id.vLcdManager)
         CalcApplication.addMessageListener(this)
         Thread { NativeThreadHandler.CalculationThread() }.start()
-        mDnsGone("112")
         virtualLcdManager.setOnTouchListener(View.OnTouchListener { v, motionEvent ->
             v.parent.requestDisallowInterceptTouchEvent(true)
             val pointF: PointF
@@ -112,7 +111,6 @@ class MainActivity : BaseActivity(), MessageListener {
             TouchHandler.j = f2 * f6
             val f7 = 240.0f / f5
             TouchHandler.k = f3 * f7
-            Log.e("fuck", "" + TouchHandler.j + "    " + TouchHandler.k)
             val actionIndex = motionEvent.actionIndex
             val valueOf = Integer.valueOf(motionEvent.getPointerId(actionIndex))
             if (actionMasked == 0) {

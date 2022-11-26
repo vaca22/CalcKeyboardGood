@@ -87,9 +87,7 @@ public class VirtualLcdManager extends ImageView implements Runnable {
 
     @Override
     public void onDraw(Canvas canvas) {
-
         update();
-
         GetLedStatus();
         canvas.drawBitmap(this.bitmap, (Rect) null, canvas.getClipBounds(), (Paint) null);
         super.onDraw(canvas);
@@ -97,9 +95,7 @@ public class VirtualLcdManager extends ImageView implements Runnable {
 
     @Override
     public void run() {
-        Log.e("dada","cc11");
         NativeScreenThread(this.byteBuffer);
-        Log.e("dada","cc22");
     }
 
 
