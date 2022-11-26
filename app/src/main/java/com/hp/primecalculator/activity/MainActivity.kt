@@ -9,14 +9,13 @@ import android.os.Message
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import com.hp.primecalculator.calc.MessageListener
-import com.hp.primecalculator.manager.VirtualLcdManager
 import com.hp.primecalculator.CalcApplication
 import com.hp.primecalculator.R
+import com.hp.primecalculator.calc.MessageListener
+import com.hp.primecalculator.calc.WeakHandler
 import com.hp.primecalculator.manager.NativeThreadHandler
 import com.hp.primecalculator.manager.TouchHandler
-
-import com.hp.primecalculator.calc.WeakHandler
+import com.hp.primecalculator.manager.VirtualLcdManager
 
 class MainActivity : Activity(), MessageListener {
     external fun mDnsFound(str: String?, str2: String?, i: Int, str3: String?, z: Boolean)
@@ -26,10 +25,11 @@ class MainActivity : Activity(), MessageListener {
     external fun OnEditCopyNumber(): String?
     external fun OnEditPasteNumber(str: String?)
     external fun SaveCalcData()
-        external fun FactoryReset(i:Int);
-        external fun NetworkScreen();
-        external fun OnLanguageChange(i:Int);
+    external fun FactoryReset(i: Int);
+    external fun NetworkScreen();
+    external fun OnLanguageChange(i: Int);
     lateinit var virtualLcdManager: VirtualLcdManager
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -152,12 +152,11 @@ class MainActivity : Activity(), MessageListener {
     override fun handleMessage(message: Message) {}
 
 
-        init {
-            System.loadLibrary("HPPrimeCalculator")
-            Log.e("fuck", CalcApplication.G)
-            nativeInit(CalcApplication.G, CalcApplication.H)
-        }
-
+    init {
+        System.loadLibrary("HPPrimeCalculator")
+        Log.e("fuck", CalcApplication.G)
+        nativeInit(CalcApplication.G, CalcApplication.H)
+    }
 
 
 }
