@@ -192,7 +192,7 @@ class MainActivity : BaseActivity(), MessageListener {
 
 
     override fun onPause() {
-        if(System.currentTimeMillis()-tt>3000){
+        if(System.currentTimeMillis()-tt>10000){
             SettingsItemClickListener.SaveCalcData()
         }
         virtualLcdManager.StopScreenThread()
