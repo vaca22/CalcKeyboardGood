@@ -182,13 +182,19 @@ class MainActivity : BaseActivity(), MessageListener {
         checkAndTurnOnDeviceManager()
     }
 
+    var tt=System.currentTimeMillis()
+
     override fun onResume() {
+        tt=System.currentTimeMillis()
         Thread(virtualLcdManager).start()
         super.onResume()
     }
 
+
     override fun onPause() {
-        SettingsItemClickListener.SaveCalcData()
+        if(System.currentTimeMillis()-tt>3000){
+            SettingsItemClickListener.SaveCalcData()
+        }
         virtualLcdManager.StopScreenThread()
         super.onPause()
     }
