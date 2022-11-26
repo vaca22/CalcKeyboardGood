@@ -1,18 +1,19 @@
-package com.vaca.myapplication.calc.helper;
+package com.hp.primecalculator.calc.helper;
 
 import android.content.Context;
 import android.os.Message;
 import android.util.SparseArray;
 
+import com.hp.primecalculator.CalcApplication;
 import com.kongqw.serialportlibrary.SerialPortManager;
 import com.kongqw.serialportlibrary.listener.OnOpenSerialPortListener;
 import com.kongqw.serialportlibrary.listener.OnSerialPortDataListener;
 
-import com.vaca.myapplication.MyApplication;
-import com.vaca.myapplication.calc.KeyBoardEvent;
-import com.vaca.myapplication.calc.MsgConstant;
-import com.vaca.myapplication.calc.utils.LogUtil;
-import com.vaca.myapplication.calc.utils.MyToast;
+
+import com.hp.primecalculator.calc.KeyBoardEvent;
+import com.hp.primecalculator.calc.MsgConstant;
+import com.hp.primecalculator.calc.utils.LogUtil;
+import com.hp.primecalculator.calc.utils.MyToast;
 
 import java.io.File;
 import java.text.DecimalFormatSymbols;
@@ -51,7 +52,7 @@ public class SerialPortHelper {
                     Message obtain = Message.obtain();
                     obtain.what = MsgConstant.KEY_EVENT_MSG;
                     obtain.obj = new KeyBoardEvent(bArr[1], (String) SerialPortHelper.mKeyArrays.get(bArr[1]));
-                    MyApplication.chanageMessage(obtain);
+                    CalcApplication.chanageMessage(obtain);
                 }
             }
         });

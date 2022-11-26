@@ -1,4 +1,4 @@
-package com.vaca.myapplication.calc.utils;
+package com.hp.primecalculator.calc.utils;
 
 import android.util.Log;
 

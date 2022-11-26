@@ -1,9 +1,9 @@
-package com.vaca.myapplication.calc.utils;
+package com.hp.primecalculator.calc.utils;
 
 import android.widget.Toast;
 
+import com.hp.primecalculator.CalcApplication;
 
-import com.vaca.myapplication.MyApplication;
 
 /* loaded from: classes.dex */
 public class MyToast {
@@ -14,7 +14,7 @@ public class MyToast {
             sToast.getView().isShown();
             sToast.setText(charSequence);
         } catch (Exception unused) {
-            sToast = Toast.makeText(MyApplication.getInstance(), charSequence, i);
+            sToast = Toast.makeText(CalcApplication.getInstance(), charSequence, i);
         }
         sToast.show();
     }

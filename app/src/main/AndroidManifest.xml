@@ -52,7 +52,7 @@
         <activity android:name="com.hp.primecalculator.activity.MainActivity" android:hardwareAccelerated="true" android:screenOrientation="landscape"/>
         <provider android:name="com.hp.primecalculator.fileprovider.FileProvider" android:exported="true" android:authorities="com.hp.primecalculator"/>
         <receiver
-            android:name="com.vaca.myapplication.ScreenOffAdminReceiver"
+            android:name="com.hp.primecalculator.ScreenOffAdminReceiver"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_DEVICE_ADMIN"
             android:exported="true">

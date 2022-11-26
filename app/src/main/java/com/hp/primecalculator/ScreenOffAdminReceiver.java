@@ -1,4 +1,4 @@
-package com.vaca.myapplication;
+package com.hp.primecalculator;
 
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;

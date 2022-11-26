@@ -1,4 +1,4 @@
-package com.vaca.myapplication.calc;
+package com.hp.primecalculator.calc;
 
 /* loaded from: classes.dex */
 public class MsgConstant {

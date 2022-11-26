@@ -1,4 +1,4 @@
-package com.vaca.myapplication.calc.pop
+package com.hp.primecalculator.calc.pop
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,7 +8,8 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.vaca.myapplication.R
+import com.hp.primecalculator.R
+
 import kotlinx.coroutines.NonCancellable.cancel
 
 

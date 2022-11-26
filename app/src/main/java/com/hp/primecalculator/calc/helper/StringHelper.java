@@ -1,4 +1,4 @@
-package com.vaca.myapplication.calc.helper;
+package com.hp.primecalculator.calc.helper;
 
 import java.util.regex.Pattern;
 

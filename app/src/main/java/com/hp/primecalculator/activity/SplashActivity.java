@@ -14,7 +14,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.hp.primecalculator.CalcApplication;
-import com.vaca.myapplication.R;
+import com.hp.primecalculator.R;
 
 
 import java.io.File;

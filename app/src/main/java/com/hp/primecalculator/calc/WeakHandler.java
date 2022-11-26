@@ -1,4 +1,4 @@
-package com.vaca.myapplication.calc;
+package com.hp.primecalculator.calc;
 
 import android.os.Handler;
 import android.os.Looper;
