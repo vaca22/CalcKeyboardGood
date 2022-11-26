@@ -48,12 +48,16 @@ public class SerialPortHelper {
             @Override // com.kongqw.serialportlibrary.listener.OnSerialPortDataListener
             public void onDataReceived(byte[] bArr) {
                // LogUtil.d(">>received data: " + StringHelper.byte2Hex(bArr));
-                if (SerialPortHelper.mKeyArrays != null) {
-                    Message obtain = Message.obtain();
-                    obtain.what = MsgConstant.KEY_EVENT_MSG;
-                    obtain.obj = new KeyBoardEvent(bArr[1], (String) SerialPortHelper.mKeyArrays.get(bArr[1]));
-                    CalcApplication.chanageMessage(obtain);
+                if(bArr.length!=4){
+                    return;
                 }
+                if(bArr[1]+bArr[2]!=-1){
+                    return;
+                }
+                Message obtain = Message.obtain();
+                obtain.what = MsgConstant.KEY_EVENT_MSG;
+                obtain.obj = new KeyBoardEvent(bArr[1], (String) SerialPortHelper.mKeyArrays.get(bArr[1]));
+                CalcApplication.chanageMessage(obtain);
             }
         });
         initKeyArray();
