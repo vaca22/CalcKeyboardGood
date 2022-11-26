@@ -93,7 +93,6 @@ class MainActivity : BaseActivity(), MessageListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e("ccTimeFuck",android.os.SystemClock.elapsedRealtime().toString())
         setContentView(R.layout.activity_main)
         virtualLcdManager = findViewById(R.id.vLcdManager)
         CalcApplication.addMessageListener(this)
