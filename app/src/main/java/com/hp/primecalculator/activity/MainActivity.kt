@@ -182,17 +182,16 @@ class MainActivity : BaseActivity(), MessageListener {
         checkAndTurnOnDeviceManager()
     }
 
-    var tt=System.currentTimeMillis()
+    var haveClick=false
 
     override fun onResume() {
-        tt=System.currentTimeMillis()
         Thread(virtualLcdManager).start()
         super.onResume()
     }
 
 
     override fun onPause() {
-        if(System.currentTimeMillis()-tt>10000){
+        if(haveClick){
             SettingsItemClickListener.SaveCalcData()
         }
         virtualLcdManager.StopScreenThread()
@@ -245,6 +244,7 @@ class MainActivity : BaseActivity(), MessageListener {
     private val mWeakHandler = WeakHandler(Looper.getMainLooper())
     override fun handleMessage(message: Message) {
         if (message.what == MsgConstant.KEY_EVENT_MSG) {
+            haveClick=true
             mWeakHandler.post {
                 var c: Char
                 val keyBoardEvent: KeyBoardEvent = message.obj as KeyBoardEvent
