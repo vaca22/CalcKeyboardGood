@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        vaca {
+            storeFile file('..\\key\\vthkey.jks')
+            storePassword 'aaaa2222'
+            keyAlias 'key0'
+            keyPassword 'aaaa2222'
+        }
+    }
     namespace 'com.hp.primecalculator'
     compileSdk 32
 
@@ -20,7 +28,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.vaca
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.vaca
+
         }
     }
     compileOptions {

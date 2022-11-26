@@ -1,7 +1,6 @@
 package com.hp.primecalculator.activity
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
@@ -11,9 +10,7 @@ import android.os.Looper
 import android.os.Message
 import android.os.PowerManager
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.view.WindowManager
 import com.hp.primecalculator.BleServer
 import com.hp.primecalculator.CalcApplication
 import com.hp.primecalculator.R
@@ -45,16 +42,12 @@ class MainActivity : BaseActivity(), MessageListener {
     lateinit var virtualLcdManager: VirtualLcdManager
 
 
-
-
-
-    lateinit var  mPowerManager: PowerManager
+    lateinit var mPowerManager: PowerManager
     lateinit var mWakeLock: PowerManager.WakeLock
 
 
     lateinit var policyManager: DevicePolicyManager
     lateinit var adminReceiver: ComponentName
-
 
 
     /**
@@ -65,7 +58,7 @@ class MainActivity : BaseActivity(), MessageListener {
         if (admin) {
             policyManager.lockNow()
         } else {
-            Log.e("fuck","没有设备管理权限")
+            Log.e("fuck", "没有设备管理权限")
         }
     }
 
@@ -76,6 +69,7 @@ class MainActivity : BaseActivity(), MessageListener {
         val pm = getSystemService(POWER_SERVICE) as PowerManager
         return pm.isScreenOn
     }
+
     /**
      * @param view 亮屏
      */
@@ -88,7 +82,7 @@ class MainActivity : BaseActivity(), MessageListener {
         mWakeLock.release()
     }
 
-    fun checkAndTurnOnDeviceManager() {
+    private fun checkAndTurnOnDeviceManager() {
         val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminReceiver)
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "开启后就可以使用锁屏功能了...") //显示位置见图二
@@ -96,12 +90,9 @@ class MainActivity : BaseActivity(), MessageListener {
     }
 
 
-
-
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
-      super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         virtualLcdManager = findViewById(R.id.vLcdManager)
         CalcApplication.addMessageListener(this)
@@ -204,19 +195,18 @@ class MainActivity : BaseActivity(), MessageListener {
     }
 
 
-
-    val keyMap= mapOf<Int,Int>(
+    val keyMap = mapOf<Int, Int>(
         1 to 41,
-       2 to 36,
-       3 to 48,
-       4 to  29,
-       5 to  47,
-       6 to 42,
-       7 to 43,
-       8 to 44,
-       9 to 37,
-       10 to  38,
-       11 to 39,
+        2 to 36,
+        3 to 48,
+        4 to 49,
+        5 to 47,
+        6 to 42,
+        7 to 43,
+        8 to 44,
+        9 to 37,
+        10 to 38,
+        11 to 39,
         12 to 32,
         13 to 33,
         14 to 34,
@@ -256,19 +246,20 @@ class MainActivity : BaseActivity(), MessageListener {
                 val keyValue: String = keyBoardEvent.getKeyValue()
                 val keyCode: Byte = keyBoardEvent.getKeyCode()
 
-                val code=keyCode.toUInt().toInt()
-                Log.e("fuck",code.toString())
-                val mm:Int?=keyMap.get(code);
+                val code = keyCode.toUInt().toInt()
+                Log.e("fuck", code.toString())
+                val mm: Int? = keyMap.get(code);
                 mm?.let {
                     TouchHandler.GUIPressKey(it)
+                    TouchHandler.GUIPressKey(-1)
                 }
 
-                if(code==19){
+                if (code == 19) {
                     BleServer.dataScope.launch {
-                        if(checkScreen()){
+                        if (checkScreen()) {
                             delay(100)
                             checkScreenOff()
-                        }else{
+                        } else {
                             hideThing()
                         }
 
