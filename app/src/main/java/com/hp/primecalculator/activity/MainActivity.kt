@@ -23,6 +23,7 @@ import com.hp.primecalculator.manager.NativeThreadHandler
 import com.hp.primecalculator.manager.TouchHandler
 import com.hp.primecalculator.manager.VirtualLcdManager
 import com.hp.primecalculator.manager.setting.SettingsItemClickListener
+import com.hp.primecalculator.utils.InonePowerSaveUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -187,6 +188,9 @@ class MainActivity : BaseActivity(), MessageListener {
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
         registerReceiver(systemReceiver, intentFilter)
+
+
+
 
     }
 

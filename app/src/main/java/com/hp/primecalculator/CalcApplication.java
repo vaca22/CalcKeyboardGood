@@ -71,6 +71,7 @@ public class CalcApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        application=this;
         SerialPortHelper.getInstance(this).openSerialPort();
         G = getFilesDir().toString();
         mkWorkDir();

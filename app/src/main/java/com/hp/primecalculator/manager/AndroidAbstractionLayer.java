@@ -15,6 +15,6 @@ public class AndroidAbstractionLayer {
     }
     public static boolean isCharging() {
 
-        return false;
+        return InonePowerSaveUtil.isCharging(CalcApplication.application);
     }
 }
