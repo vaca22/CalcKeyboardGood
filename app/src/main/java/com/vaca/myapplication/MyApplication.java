@@ -53,22 +53,6 @@ public class MyApplication extends Application {
         SerialPortHelper.getInstance(this).closeSerialPort();
     }
 
-    public static void addActivity(Activity activity) {
-        if (!mActivitys.contains(activity)) {
-            mActivitys.add(activity);
-        }
-    }
-
-    public static void removeActivity(Activity activity) {
-        if (mActivitys.contains(activity)) {
-            mActivitys.remove(activity);
-        }
-        if (mActivitys.size() == 0) {
-            Message obtain = Message.obtain();
-            obtain.what = DESTORY_APPLICATION;
-            chanageMessage(obtain);
-        }
-    }
 
     public static MyApplication getInstance() {
         return application;

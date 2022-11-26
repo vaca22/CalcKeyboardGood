@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.hp.primecalculator.activity.MainActivity">
 
-    <com.hp.primecalculator.manager.VirtualLcdManager
-        android:id="@+id/vLcdManager"
+
+    <TextView
+        android:padding="20dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="4:3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"/>
-
+        android:text="sss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
