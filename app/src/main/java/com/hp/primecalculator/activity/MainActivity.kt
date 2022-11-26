@@ -179,7 +179,7 @@ class MainActivity : BaseActivity(), MessageListener {
         mPowerManager = getSystemService(POWER_SERVICE) as PowerManager
         policyManager =
             this@MainActivity.getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        checkAndTurnOnDeviceManager()
+        //checkAndTurnOnDeviceManager()
     }
 
     var haveClick=false
