@@ -94,6 +94,7 @@ class MainActivity : BaseActivity(), MessageListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e("ccTimeFuck",android.os.SystemClock.elapsedRealtime().toString())
         setContentView(R.layout.activity_main)
         virtualLcdManager = findViewById(R.id.vLcdManager)
         CalcApplication.addMessageListener(this)
@@ -184,7 +185,10 @@ class MainActivity : BaseActivity(), MessageListener {
 
     var haveClick=false
 
+    var resumeTime=System.currentTimeMillis()
+
     override fun onResume() {
+        resumeTime=System.currentTimeMillis()
         Thread(virtualLcdManager).start()
         super.onResume()
     }
@@ -192,7 +196,10 @@ class MainActivity : BaseActivity(), MessageListener {
 
     override fun onPause() {
         if(haveClick){
-            SettingsItemClickListener.SaveCalcData()
+            if(android.os.SystemClock.elapsedRealtime()>38000){
+                Log.e("ccTime",android.os.SystemClock.elapsedRealtime().toString())
+                SettingsItemClickListener.SaveCalcData()
+            }
         }
         virtualLcdManager.StopScreenThread()
         super.onPause()
