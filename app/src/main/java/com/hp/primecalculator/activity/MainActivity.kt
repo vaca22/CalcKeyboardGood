@@ -2,15 +2,21 @@ package com.hp.primecalculator.activity
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
+import android.content.Intent
 import android.graphics.PointF
 import android.os.Bundle
 import android.os.Looper
 import android.os.Message
+import android.os.PowerManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import com.hp.primecalculator.BleServer
 import com.hp.primecalculator.CalcApplication
 import com.hp.primecalculator.R
+import com.hp.primecalculator.ScreenOffAdminReceiver
 import com.hp.primecalculator.calc.KeyBoardEvent
 import com.hp.primecalculator.calc.MessageListener
 import com.hp.primecalculator.calc.MsgConstant
@@ -18,6 +24,8 @@ import com.hp.primecalculator.calc.WeakHandler
 import com.hp.primecalculator.manager.NativeThreadHandler
 import com.hp.primecalculator.manager.TouchHandler
 import com.hp.primecalculator.manager.VirtualLcdManager
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : Activity(), MessageListener {
     external fun mDnsFound(str: String?, str2: String?, i: Int, str3: String?, z: Boolean)
@@ -26,13 +34,67 @@ class MainActivity : Activity(), MessageListener {
     external fun postText(str: String?)
     external fun OnEditCopyNumber(): String?
     external fun OnEditPasteNumber(str: String?)
-    external fun SaveCalcData()
+    external fun SaveCalcData();
     external fun FactoryReset(i: Int);
     external fun NetworkScreen();
     external fun OnLanguageChange(i: Int);
 
 
     lateinit var virtualLcdManager: VirtualLcdManager
+
+
+
+
+
+    lateinit var  mPowerManager: PowerManager
+    lateinit var mWakeLock: PowerManager.WakeLock
+
+
+    lateinit var policyManager: DevicePolicyManager
+    lateinit var adminReceiver: ComponentName
+
+
+
+    /**
+     * 息屏
+     */
+    fun checkScreenOff() {
+        val admin = policyManager.isAdminActive(adminReceiver)
+        if (admin) {
+            policyManager.lockNow()
+        } else {
+            Log.e("fuck","没有设备管理权限")
+        }
+    }
+
+    /**
+     * @param view 检测屏幕状态
+     */
+    fun checkScreen(): Boolean {
+        val pm = getSystemService(POWER_SERVICE) as PowerManager
+        return pm.isScreenOn
+    }
+    /**
+     * @param view 亮屏
+     */
+    fun checkScreenOn() {
+        mWakeLock = mPowerManager.newWakeLock(
+            PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+            "tag"
+        )
+        mWakeLock.acquire()
+        mWakeLock.release()
+    }
+
+    fun checkAndTurnOnDeviceManager() {
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminReceiver)
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "开启后就可以使用锁屏功能了...") //显示位置见图二
+        startActivityForResult(intent, 0)
+    }
+
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,6 +183,11 @@ class MainActivity : Activity(), MessageListener {
             map[valueOf] = pointF
             true
         })
+        adminReceiver = ComponentName(this@MainActivity, ScreenOffAdminReceiver::class.java)
+        mPowerManager = getSystemService(POWER_SERVICE) as PowerManager
+        policyManager =
+            this@MainActivity.getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        checkAndTurnOnDeviceManager()
     }
 
     override fun onResume() {
@@ -129,8 +196,8 @@ class MainActivity : Activity(), MessageListener {
     }
 
     override fun onPause() {
-        SaveCalcData()
-        virtualLcdManager!!.StopScreenThread()
+       // SaveCalcData()
+        virtualLcdManager.StopScreenThread()
         super.onPause()
     }
 
@@ -187,6 +254,16 @@ class MainActivity : Activity(), MessageListener {
                 val mm:Int?=keyMap.get(code);
                 mm?.let {
                     TouchHandler.GUIPressKey(it)
+                }
+
+                if(code==19){
+                    BleServer.dataScope.launch {
+                        if(checkScreen()){
+                            delay(100)
+                            checkScreenOff()
+                        }
+
+                    }
                 }
 
 
