@@ -1,0 +1,9 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_IFERR()
+BEGIN
+
+IFERR 1/0
+  THEN PRINT("1/0 Error");
+END;
+
+END;

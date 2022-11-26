@@ -1,0 +1,15 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_SUBGROB_P()
+BEGIN
+
+//// SUBGROB_P - Pixel based drawing
+DIMGROB_P(G1,320,240);
+DIMGROB_P(G2,80,60);
+RECT_P(G1,0,121,159,240,RGB(196,0,0)); // Wide Red Border, Lower Left
+RECT_P(G1,10,131,149,230,RGB(0,0,196)); // Blue Box, Lower Left
+SUBGROB_P(G1,5,126,154,235,G2); // Copy part of G1 into G2
+RECT();  // Clear screen
+BLIT(G2); // Display G2
+WAIT();
+
+END;

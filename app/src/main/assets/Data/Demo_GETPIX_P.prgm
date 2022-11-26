@@ -1,0 +1,42 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_GETPIX_P()
+BEGIN
+
+//// GETPIX_P - Pixel based drawing
+RECT();  // Clear screen
+A:=GETPIX_P(40,20); // Get the color of the pixel at 40,20
+RECT(#0h); // Blackout screen
+DIMGROB_P(G1,1,1,A); // One pixel GROB color of A
+BLIT_P(60,20,260,220,G1); // Display G1 (enlarged and centered)
+WAIT();
+RANDSEED(π); // So we get the same "random" numbers each time we run this program
+L1:=MAKELIST((RANDINT(#7FFF)*#1000000000000:64h+RANDINT(#7FFF)*#100000000:64h+RANDINT(#7FFF)*#10000:64h+RANDINT(#7FFF)),A,1,25,1);
+DIMGROB_P(G2,10,10,L1); // 10x10 GROB, each pixel a different random color from L1
+BLIT_P(60,20,260,220,G2); // Display  G2 (enlarged and centered)
+B:=GETPIX_P(G0,129,35); // Get the color of the pixel at 195,35
+WAIT();
+DIMGROB_P(G3,1,1,B); // One pixel GROB color of B
+BLIT_P(60,20,260,220,G3); // Display  G3 (enlarged and centered)
+WAIT();
+
+//// GETPIX - Cartesian based drawing
+// STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+// STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+// Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+// RECT();  // Clear screen
+// A:=GETPIX(-1,1); // Get the color of the pixel at -1,1
+// RECT(#0h); // Blackout screen
+// DIMGROB(G1,.1,.1,A); // One pixel GROB color of A
+// BLIT(-10,10,10,-10,G1); // Display G1 (enlarged and centered)
+// WAIT();
+// RANDSEED(π); // So we get the same "random" numbers each time we run this program
+// L1:=MAKELIST((RANDINT(#7FFF)*#1000000000000:64h+RANDINT(#7FFF)*#100000000:64h+RANDINT(#7FFF)*#10000:64h+RANDINT(#7FFF)),A,1,25,1);
+// DIMGROB(G2,1,1,L1); // 1x1 GROB, each pixel a different random color from L1
+// BLIT(-9,9,9,-9,G2); // Display  G2 (enlarged and centered)
+// B:=GETPIX(G0,-1,1); // Get the color of the pixel at 195,35
+// WAIT();
+// DIMGROB(G3,.1,.1,B); // One pixel GROB color of B
+// BLIT(-8,8,8,-8,G3); // Display  G3 (enlarged and centered)
+// WAIT();
+
+END;

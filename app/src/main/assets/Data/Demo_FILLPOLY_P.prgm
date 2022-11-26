@@ -1,0 +1,18 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_FILLPOLY_P()
+BEGIN
+
+//// FILLPOLY_P - Pixel based drawing
+RECT();  // Clear screen
+FILLPOLY_P({(110,207),(210,207),(260,120),(210,33),(110,33),(60,120),(110,207)},RGB(200,200,0));
+WAIT();
+
+//// FILLPOLY - Cartesian based drawing
+//STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+//STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+//Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+//RECT(); // clear screen
+//FILLPOLY({(-3,5),(3,5),(6,0),(3,-5),(-3,-5),(-6,0),(-3,5)},RGB(128,0,128));
+//WAIT();
+
+END;

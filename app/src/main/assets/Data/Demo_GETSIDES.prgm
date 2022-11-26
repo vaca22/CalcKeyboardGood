@@ -1,0 +1,8 @@
+EXPORT SIDES;
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_GETSIDES()
+BEGIN
+  REPEAT
+  INPUT(SIDES,"Die Sides","N = ","Enter num sides",2);
+  UNTIL SIDES>0;
+ END;

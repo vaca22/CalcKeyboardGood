@@ -1,0 +1,21 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_TEXTOUT()
+BEGIN
+  LOCAL sign;
+  K:=2;
+  A:=4;
+  sign:=−1;
+  STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+  STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+  Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+  RECT();
+  TEXTOUT("N=",-2,5,2);
+  TEXTOUT("PI APPROX=",-7,0,2);
+  REPEAT
+    A+sign*4/(2*K-1)▶A;
+    TEXTOUT(K ,0,5,2,#FFFFFF,100,#333399);
+    TEXTOUT(A ,0,0,2,#000000,100,#99CC33);
+    sign*-1▶sign;
+    K+1▶K;
+  UNTIL 0;
+END;

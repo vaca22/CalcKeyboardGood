@@ -1,0 +1,121 @@
+// This example program is a "tunnel" game.
+// A game where the player guides a triangle
+// in a randomly moving tunnel and needs to
+// avoid hitting the sides.
+
+// first, we place a pragma directive to indicate
+// which settings we use in our program and
+// avoid compilation errors if the calculator
+// does not match our settings
+#pragma mode( separator(.,;) integer(h32) )
+
+
+// Points is an exported, global variable
+// in order to allow the user to see his score
+// even after the program has ended.
+// Had we not put the variable as a global
+// this would have not be possible
+export Points= 0;
+
+// Tunnel is the main function of the program
+export Tunnel()
+begin
+  // First, we initialize all the variables and items
+  // used by the program.
+  
+  // Set the point counter to 0
+  Points:= 0;
+  // detect the screen width and height
+  local width= grobw_p(G0), height= grobh_p(G0);
+  // playery is the vertical position of the player on the
+  // screen. We initialize it at 1/2 the screen
+  local playery= height/2;
+  // space will we the width of the tunnel
+  // we initialize it at 1/4 of the screen height
+  local space= height/4;
+  // topy will be the location of the tunnel on the
+  // screen. We initialize it centered on the screen
+  local topy= (height-space)/2;
+  // G1 will be used to draw outside of the
+  // screen in order to reduce flicker.
+  // we make G1 the same size as the screen and erase it
+  dimgrob_p(G1, width, height, #FFFFFF);
+  // speed is the number of millisecond in between frames
+  // we start at 300ms and we slowly decrease it to make the game harder
+  local speed= 300;
+  // nextFrame will contain the time when we need to display the next
+  // frame. This is set to now plus the speed
+  local nextFrame= ticks+speed;
+  // nextspeedup contains the moment when we want to next increase the
+  // dificulty of the game by speeding it up AND reducing the tunnel size
+  local nextspeedup= ticks+10000;
+  // movespeed contains the number of pixels by which the user can move per frame
+  local movespeed= 5;
+  // positions will contain a list of topy/space pairs associated with all the tunnel
+  // segments visible on the screen. This will be used to test for collision
+  // The tunnel is generated on the right and slowly moves left
+  // collisions will only be detected on the left. So, we need to
+  // record every new right position, and keep it in memory until it becomes
+  // the left position and is used for collision test. This is what is saved here
+  // We initializes the list with the screen height as the full screen is valid at the begining.
+  local positions= makelist({0, height}, I, 0, width/4);
+
+  // we now get to the core of the game
+  // while the player is "in the tunnel" (tested by comparing the user position
+  // with the leftmost position in the position list
+  // the +15 comes from the fact that the user triangle is 15 pixels heigh
+  while playery>positions(1,1) and playery+15<positions(1,2) do
+    // Draw the new part of the tunnel. A top and bottom blue part and a middle white
+    rect_p(G1, width-5, 0, width-1, topy, #FF); 
+    rect_p(G1, width-5, topy+1, width-1, topy+space, #FFFFFF); 
+    rect_p(G1, width-5, topy+space, width-1, height-1, #FF); 
+    // Copy the back buffer to the screen
+    blit(G0, G1);
+    // Draw the "user". A color changing triangle of height 15
+    triangle_p(G0, {0, playery, #FF0000}, {15, playery+8, #00FF00}, {0, playery+15, #FF0000});
+
+    // start working on the next frame
+    // first, shift the back buffer graphic 5 pixels to the left
+    blit_p(G1, 0, 0, G1, 4, 0);
+    // remove the first item from the position list
+    positions:= positions({2,size(positions)});
+    // add the current position at the end of the position list
+    positions(0):= {topy, topy+space};
+    // if the up key is pressed, move the player up (if possible)
+    if iskeydown(2) and playery>0 then playery:= playery-movespeed; end;
+    // if the down key is pressed, move the player down (if possible)
+    if iskeydown(12) and playery+15<height then playery:= playery+movespeed; end;
+    // randombly move the tunnel up or down (if possible)
+    if rand<0.5 then
+      if topy>0 then topy:= topy-1; end;
+    else
+      if topy+space<height then topy:= topy+1; end;
+    end;
+    // increase the user's point count
+    Points:= Points+1;
+    
+    // get "now"
+    local now= ticks;
+    // if we need to make the game harder
+    if now>nextspeedup then 
+      // calculate next time we need to make the game harder
+      nextspeedup:= nextspeedup+10000;
+      // increase the speed
+      speed:= speed*0.9; 
+      // keep user speed move constant compare with normal time
+      movespeed:= movespeed*0.9; 
+      // make tunnel smaller
+      space:= space*0.9; 
+    end;
+    // wait as needed for the next frame
+    wait((nextFrame-now)/1000);
+    // calculate when the next frame needs to happen
+    nextFrame:= nextFrame+speed;
+  end;
+
+  // out of the while loop. The user has lost
+  // tell him how many points he has!
+  msgbox("You have "+Points+" Points!");
+  // also return the point count on the stack
+  return Points;
+end;

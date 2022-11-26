@@ -1,0 +1,10 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_UNTIL()
+BEGIN
+A:=5;
+REPEAT
+  PRINT(A);
+  A:= A-1;
+UNTIL A<1;
+
+END;

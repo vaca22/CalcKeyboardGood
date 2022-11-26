@@ -1,0 +1,18 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_LINE_P()
+BEGIN
+
+//// LINE_P - Pixel based drawing
+RECT();  // Clear screen
+LINE_P(80,60,160,120,RGB(0,255,0)); // draw line
+WAIT();
+
+//// LINE - Cartesian based drawing
+//STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+//STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+//Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+//RECT(); // clear screen
+//LINE(-7,-7,7,7,RGB(255,0,0)); // draw line
+//WAIT();
+
+END;

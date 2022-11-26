@@ -1,0 +1,24 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_DIMGROB_P()
+BEGIN
+
+//// DIMGROB_P - Pixel based drawing
+DIMGROB_P(G1,50,50,RGB(0,0,225)); // Set G1 dimensions (50x50 pixels) and color (blue) 
+BLIT_P(G1); // Send G1 to the screen
+WAIT();
+DIMGROB_P(G2,4,4,{#03E07C00007F7FE0:64h,#007F7FE003E07C00:64h,#7FFF00007FFF0000:64h,#00007FFF00007FFF:64h}); // 4x4 pixels. Colors (right to left): GRBY, BYGR, WKWK, KWKW
+BLIT_P(0,0,200,200,G2); // Send G2 to the screen, 50 times larger than original
+WAIT();
+
+//// DIMGROB - Cartesian based drawing
+// STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+// STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+// Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; //set default Cartesian window values
+// DIMGROB(G1,7.5,7.5,RGB(0,128,0));  // Set dimensions and color of G1
+// BLIT(G1); // Send G1 to the screen
+// WAIT();
+// DIMGROB(G2,0.4,0.4,{#03E07C00007F7FE0:64h,#007F7FE003E07C00:64h,#7FFF00007FFF0000:64h,#00007FFF00007FFF:64h});
+// BLIT(-5,5,5,-5,G2); // Send G2 to the screen
+// WAIT();
+
+END;

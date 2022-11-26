@@ -1,0 +1,11 @@
+EXPORT ISPERFECT(n)
+BEGIN
+  LOCAL d, sum;
+  2 ▶ d; 1 ▶ sum;
+  WHILE sum <= n AND d < n DO
+    IF irem(n,d)==0 THEN sum+d ▶ sum;
+    END;
+    d+1 ▶ d;
+  END;
+  RETURN sum==n;
+END;

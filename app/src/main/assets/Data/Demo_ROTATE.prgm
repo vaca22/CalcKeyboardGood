@@ -1,0 +1,56 @@
+ // Program that shows examples of use of the rotate functions
+// to draw rotated graphics.
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_ROTATE()
+BEGIN
+  // Create a graphic object to roate and draw a pattern in it
+  DIMGROB_P(G1, #32, #32, RGB(#0, #0, #0));
+  LOCAL x, y;
+  FOR x:=0 to 31 DO
+    FOR y:=0 to 31 DO
+      PIXON_P(G1, BITAND(x,y), BITOR(x,y), RGB(#255, #0, #0));
+      PIXON_P(G1, #31-BITAND(x,y), #31-BITOR(x,y), RGB(#0, #0, #255));
+    END;
+  END;
+  
+  // Draw the original graphic on the screen to show what it looks like
+  BLIT_P(G0, G1);
+  
+  // Draw the rotated graphic on the screen in a different location
+  ROTATE(G0, PI/5, G1, {#200, #200});
+  
+  // Texture map the graphic on the screen. Notice how the
+  // mapping from a rectangle source graphic to a quadrilaterrial destination
+  // is done as 2 triangles and how the 2 triangles stretch factors create a bending effect.
+  // You can use this function with 2 times 4 pairs of coordinates (4 dest, 4 sources) if needed.
+  // By merging the first and second vertex, you can use this function as a triangular texture mapping function
+  ROTATE(G0, G1, {#40, #20}, {#190, #30}, {#120, #150}, {#50, #100});
+
+  // Rotate the graphic around its center. fill the newly created space with green
+  // and draw it on the main screen
+  ROTATE(G1, PI/9, RGB(#0, #255, #0));
+  BLIT_P(G0, #0, #32, G1);
+
+  // freeze the display to see what the result looks like
+  FREEZE;
+END;
+ 
+EXPORT rot()
+BEGIN
+  DIMGROB_P(G1,25,25, RGB(0,0,255));
+  ROTATE(G1, pi/16,RGB(255,0,0));
+  BLIT(G0, G1);
+FREEZE();
+END;
+ 
+EXPORT Rot()
+BEGIN
+A:=0;
+WHILE GETKEY()==-1 DO
+  DIMGROB_P(G1,25,25, RGB(0,0,255));
+  RECT();
+  ROTATE(G0,A,G1, 30, 30);
+  A:=A+pi/16;
+  WAIT(.1);
+END;
+END;

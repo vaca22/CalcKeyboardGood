@@ -1,0 +1,10 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_IF()
+BEGIN
+IF A<1 
+  THEN PRINT("A<1"); 
+  ELSE PRINT("A>1"); 
+END;
+
+
+END;

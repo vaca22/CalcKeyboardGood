@@ -1,0 +1,27 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_BLIT_P()
+BEGIN
+
+//// BLIT_P - Pixel based 
+RECT();  // Clear screen
+DIMGROB(G1,160,120,RGB(255,255,0)); // Set dimensions and color of G1
+LINE_P(G1,0,0,160,120,RGB(0,128,0)); // Draw a green line in G1
+BLIT_P(0,0,160,120,G1,0,0,160,120); // Send G1 to the display
+WAIT();
+BLIT_P(161,121,G1); // Send G1 to lower right of display
+WAIT();
+BLIT_P(40,150,120,210,G1,0,0,160,120,RGB(255,255,0)); // Send just the line, not the background to lower left quadrant and shrink to half size
+WAIT();
+
+//// BLIT - Cartesian based 
+//STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+//STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+//Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+//RECT(); // clear screen
+//DIMGROB(G1,320,240,RGB(128,0,128)); // Set dimensions and color of G1
+//LINE(G1,-15.9,0,0,10.9,RGB(255,0,0)); // draw a red line in G1
+//BLIT(-15.9,10.9,0,0,G1,-15.9,10.9,0,0); // send G1 to the display
+//BLIT(0,0,15.9,-10.9,G1,-15.9,10.9,0,0); // send G1 to lower right of display
+//WAIT();
+
+END;

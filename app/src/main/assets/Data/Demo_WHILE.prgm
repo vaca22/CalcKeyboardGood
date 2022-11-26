@@ -1,0 +1,10 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_WHILE()
+BEGIN
+A:=5;
+WHILE A>1 DO 
+  PRINT(A); 
+  A:= A-1;
+END;
+
+END;

@@ -1,0 +1,10 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_BREAK()
+BEGIN
+FOR A FROM 1 TO 10 DO
+  B:= (A+3) MOD 5;
+  IF B==1 THEN BREAK;
+  END;
+END;
+
+END;

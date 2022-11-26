@@ -1,0 +1,37 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_INVERT()
+BEGIN
+
+//// INVERT - Cartesian based drawing
+STARTAPP("Function"); // Start function app. The next variable set is a graphing app variable and does not exist for apps with no graphing capabilty.
+STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+AAngle:=1; // radians
+RECT();  // Clear screen
+ARC(0,0,90,−π/3,4/3*π,RGB(255,0,0));
+WAIT();
+INVERT(-15,0,0,-10); // Bottom Left
+WAIT();
+INVERT(0.1,10,15,0); // Top Right
+WAIT();
+INVERT(-15,10,0,0.1); // Top Left
+WAIT();
+INVERT(0.1,-0.1,15,-10); // Bottom Right
+WAIT();
+
+//// INVERT_P - Pixel based drawing
+// STARTAPP("Function"); // Start function app. The next variable set is a graphing app variable and does not exist for apps with no graphing capabilty.
+// STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+// AAngle:=1; // radians
+// RECT();  // Clear screen
+// ARC_P(160,120,90,−π/3,4/3*π,RGB(0,255,0));
+// WAIT();
+// INVERT_P(50,120,160,210);
+// WAIT();
+// INVERT_P(160,10,280,120);
+// WAIT();
+// INVERT_P(50,10,159,119);
+// WAIT();
+// INVERT_P(161,121,280,210);
+// WAIT();
+
+END;

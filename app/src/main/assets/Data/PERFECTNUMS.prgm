@@ -1,0 +1,8 @@
+EXPORT PERFECTNUMS()
+BEGIN
+  LOCAL k;
+  FOR k FROM 2 TO 1000 DO
+    IF ISPERFECT(k) THEN MSGBOX(k+" is perfect, press OK");
+    END;
+  END;
+END;

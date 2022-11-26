@@ -1,0 +1,23 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_TRIANGLE_P()
+BEGIN
+
+//// TRIANGLE_P - Pixel based drawing
+RECT();  // Clear screen
+TRIANGLE_P(40,20,120,100,40,100,RGB(128,0,255),128); // Lavendar triangle 
+WAIT();
+TRIANGLE_P({265,145,RGB(128,0,255),90},{240,220,RGB(255,200,50),100},{195,157,RGB(196,0,0),128}); // Multicolor triange
+WAIT();
+
+//// TRIANGLE - Cartesian based drawing
+// STARTAPP("Function"); // Start function app
+// STARTVIEW(-1); // set home screen
+// Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+// TRIANGLE(#000000h); // black screen
+// TRIANGLE(-14,8,-2,3.5,-10,-8,RGB(128,0,128)); // Purple triangle in upper left quadrant
+// WAIT();
+// TRIANGLE({3,0,RGB(32,196,32),90},{12,-10,RGB(255,200,50),100},{15,7,RGB(196,0,0),128}); // Multicolor triange
+// WAIT();
+
+END;
+

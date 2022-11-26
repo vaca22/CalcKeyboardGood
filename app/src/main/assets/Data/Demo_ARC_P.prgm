@@ -1,0 +1,24 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_ARC_P()
+BEGIN
+
+//// ARC_P - Pixel based drawing
+RECT();  // Clear screen
+HAngle:=0; AAngle:=0; // set current angle mode
+ARC_P(160,120,90,−π/3,4/3*π,RGB(0,255,0)); // Draw line arc
+ARC_P(160,120,80,−π/3,4/3*π,{#FF0000h,#FFFF00h}); // Draw filled arc
+ARC_P(205,115,{8,12},0,2*π,{RGB(215,215,215),RGB(0,0,0)}); //Draw filled ellipse 
+WAIT();
+
+//// ARC - Cartesian based drawing
+// STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+// STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+// HAngle:=0; AAngle:=0; // set current angle mode
+// Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; //set default Cartesian window values
+// RECT(); //clear screen
+// ARC(0,0,90,−π/3,4/3*π,RGB(255,0,0)); // Draw line arc
+// ARC(0,0,80,−π/3,4/3*π,{#AF0000h,#FFFF00h}); // Draw filled arc
+// ARC(4.5,0,{8,12},0,2*π,{RGB(215,215,215),RGB(0,0,0)}); // Draw filled ellipse
+// WAIT();
+
+END;

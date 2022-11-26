@@ -1,0 +1,18 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_TEXTOUT_P()
+BEGIN
+  LOCAL sign;
+  K:=2;
+  A:=4;
+  sign:=−1;
+  RECT();
+  TEXTOUT_P("N=",0,0);
+  TEXTOUT_P("PI APPROX=",0,30);
+  REPEAT
+    A+sign*4/(2*K-1)▶A;
+    TEXTOUT_P(K ,35,0,2,#FFFFFF,100,#333399);
+    TEXTOUT_P(A ,90,30,2,#000000,100,#99CC33);
+    sign*-1▶sign;
+    K+1▶K;
+  UNTIL 0;
+END;

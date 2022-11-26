@@ -1,0 +1,51 @@
+#pragma mode( separator(.,;) integer(h32) )
+
+//Symb()
+//BEGIN
+// MSGBOX("Symb");
+//END;
+
+//Plot()
+//BEGIN
+// MSGBOX("Plot");
+//END;
+
+//Num()
+//BEGIN
+// MSGBOX("Num");
+//END;
+
+//SymbSetup()
+//BEGIN
+// MSGBOX("SymbSetup");
+//END;
+
+//PlotSetup()
+//BEGIN
+// MSGBOX("PlotSetup");
+//END;
+
+//NumSetup()
+//BEGIN
+// MSGBOX("NumSetup");
+//END;
+
+//Info()
+//BEGIN
+// MSGBOX("Info");
+//END;
+
+//START()
+//BEGIN
+// MSGBOX("START");
+//END;
+
+//RESET()
+//BEGIN
+// MSGBOX("RESET");
+//END;
+
+//VIEW "Views", Views()
+//BEGIN
+// MSGBOX("Views");
+//END;

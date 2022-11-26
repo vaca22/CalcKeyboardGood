@@ -1,0 +1,32 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_RECT_P()
+BEGIN
+
+//// RECT_P - Pixel based drawing
+RECT();  // Clear screen
+RECT_P(40,20,120,100,RGB(128,0,255),RGB(255,200,50)); // Gold square, Purple border
+WAIT();
+RECT_P(160,0,RGB(0,196,0)); // Right Half Green
+WAIT();
+RECT_P(161,121,318,238,RGB(255,200,50),RGB(128,0,255)); // Purple box, Gold border, Lower Right
+WAIT();
+RECT_P(0,121,159,240,RGB(196,0,0)); // Wide Red Border, Lower Left
+RECT_P(10,131,149,230,RGB(0,0,196)); // Blue Box, Lower Left
+WAIT();
+
+//// RECT - Cartesian based drawing
+// STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+// STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+// Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+// RECT(#000000h); // black screen
+// RECT(-10,7.5,-6,3.5,RGB(128,0,128),RGB(196,0,196)); // Small Purple square in upper left quadrant
+// WAIT();
+// RECT(5,-7,RGB(255,128,0)); // Orange rectangle with No border in lower right corner
+// WAIT();
+// RECT(1,10,15,1,RGB(0,196,0),RGB(196,0,0)); // Red rectangle with green border in Upper right
+// WAIT();
+// RECT(-15.9,0,0,-12.9,RGB(196,0,0)); // Red rectangle, Lower Left
+// RECT(-15,-1,-1,-12,RGB(0,0,196)); // Overlay smaller blue rectangle on Lower Left red rectangle to give the appearnce of a wide border
+// WAIT();
+
+END;

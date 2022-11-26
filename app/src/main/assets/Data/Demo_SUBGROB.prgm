@@ -1,0 +1,18 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_SUBGROB()
+BEGIN
+
+//// SUBGROB - Pixel based drawing
+STARTAPP("Function"); // Start function app. The next variables set are graphing app variables and do not exist for apps with no graphing capabilty.
+STARTVIEW(-1); // set home screen because STARTAPP opens the default view for the app
+Xmin:=-15.9;  Xmax:=15.9;  Ymin:=-10.9;  Ymax:=10.9; // set default Cartesian window values
+DIMGROB(G1,32,24);
+DIMGROB(G2,16,12);
+RECT(G1,-15.9,0,0,-12.9,RGB(196,0,0)); // Red rectangle, Lower Left
+RECT(G1,-15,-1,-1,-12,RGB(0,0,196)); // Overlay smaller blue rectangle on Lower Left red rectangle to give the appearnce of a wide border
+SUBGROB(G1,-15.4,-0.5,-0.5,-12.4,G2); // Copy part of G1 into G2
+RECT(#0h);  // Black screen
+BLIT(G2); // Display G2
+WAIT();
+
+END;

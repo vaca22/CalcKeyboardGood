@@ -1,0 +1,13 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_KILL()
+BEGIN
+//print  1 2 3 4 
+A:=1;
+WHILE 1 DO // repeat forever 
+  PRINT(A); 
+  A:=A+1;
+  IF A>4 THEN KILL;
+  END;
+END;
+
+END;

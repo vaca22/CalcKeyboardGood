@@ -1,0 +1,9 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_RETURN(N)
+BEGIN
+  IF N==1 THEN
+    RETURN 1;
+  ELSE
+    RETURN N*FACTORIAL(N-1);
+  END;
+END;

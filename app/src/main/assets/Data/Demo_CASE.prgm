@@ -1,0 +1,22 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_CASE()
+BEGIN
+LOCAL my_rnd,out_str,forever;
+
+REPEAT 
+  PRINT();
+  FOR J FROM 1 TO 10 DO
+    my_rnd:=ROUND(RANDOM(1,100),0);
+    out_str:="Run "+J+", RND:="+my_rnd;
+    CASE
+      IF my_rnd<=25 THEN PRINT(out_str+" <= 25") END;
+      IF my_rnd<=50 THEN PRINT(out_str+" <= 50") END;
+      IF my_rnd<=75 THEN PRINT(out_str+" <= 75") END;
+      DEFAULT PRINT(out_str+" <= 100");
+    END;
+  END;
+  PRINT("Press any key to repeat, ON to exit.");
+  WAIT();
+UNTIL forever;
+
+END;

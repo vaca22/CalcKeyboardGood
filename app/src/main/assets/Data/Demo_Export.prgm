@@ -1,0 +1,15 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_EXPORT()
+BEGIN
+END;
+
+EXPORT X2m1(X)
+BEGIN
+END;
+
+EXPORT ratio:=0.15;
+
+EXPORT X2M1(X)
+BEGIN
+RETURN X^2-1;
+END;

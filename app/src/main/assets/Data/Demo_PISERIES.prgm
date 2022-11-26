@@ -1,0 +1,18 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_PISERIES()
+BEGIN
+  LOCAL sign;
+  K:=2;
+  A:=4;
+  sign:=−1;
+  RECT();
+  TEXTOUT("N=",-10,10);
+  TEXTOUT("PI APPROX=",-10,5);
+  REPEAT
+    A+sign*4/(2*K-1)▶A;
+    TEXTOUT(K ,0,10,2,#FFFFFF,100,#333399);
+    TEXTOUT(A ,0,5,2,#000000,100,#99CC33);
+    sign*-1▶sign;
+    K+1▶K;
+  UNTIL 0;
+END;

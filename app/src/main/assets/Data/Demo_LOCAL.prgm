@@ -1,0 +1,6 @@
+#pragma mode( separator(.,;) integer(h32) )
+EXPORT Demo_LOCAL()
+BEGIN
+LOCAL alex:=0,beverly:=0,charlie:=0;
+
+END;
