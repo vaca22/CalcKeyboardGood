@@ -10,6 +10,7 @@ import android.os.Message
 import android.os.PowerManager
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.hp.primecalculator.BleServer
 import com.hp.primecalculator.CalcApplication
@@ -49,6 +50,8 @@ class MainActivity : BaseActivity(), MessageListener {
 
     lateinit var policyManager: DevicePolicyManager
     lateinit var adminReceiver: ComponentName
+
+    var keySwitch=false;
 
 
     /**
@@ -90,12 +93,20 @@ class MainActivity : BaseActivity(), MessageListener {
         startActivityForResult(intent, 0)
     }
 
+    lateinit var indicator:TextView
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.e("ccTimeFuck",android.os.SystemClock.elapsedRealtime().toString())
         setContentView(R.layout.activity_main)
+        indicator=findViewById(R.id.indicator)
+        if(keySwitch){
+            indicator.text="下"
+        }else{
+            indicator.text="上"
+        }
         virtualLcdManager = findViewById(R.id.vLcdManager)
         CalcApplication.addMessageListener(this)
         Thread { NativeThreadHandler.CalculationThread() }.start()
@@ -212,11 +223,11 @@ class MainActivity : BaseActivity(), MessageListener {
     }
 
 
-    val keyMap = mapOf<Int, Int>(
+    val keyMapUp = mapOf<Int, Int>(
         1 to 41,
         2 to 36,
-        3 to 48,
-        4 to 49,
+        3 to 49,
+        4 to 48,
         5 to 47,
         6 to 42,
         7 to 43,
@@ -227,22 +238,58 @@ class MainActivity : BaseActivity(), MessageListener {
         12 to 32,
         13 to 33,
         14 to 34,
-        15 to 21,
-        16 to 27,
+        15 to 16,
+        16 to 4,
         17 to 31,
         18 to 19,
         19 to 46,
-        20 to 22,
-        21 to 23,
-        22 to 28,
-        23 to 15,
+        20 to 17,
+        21 to 5,
+        22 to 10,
+        23 to 0,
         24 to 16,
-        25 to 5,
+        25 to 27,
         26 to 40,
         27 to 50,
-        28 to 10,
+        28 to 28,
         29 to 35,
         30 to 45,
+        31 to 30
+
+
+    )
+
+    val keyMapDown = mapOf<Int, Int>(
+        1 to 41,
+        2 to 36,
+        3 to 49,
+        4 to 9,
+        5 to 13,
+        6 to 1,
+        7 to 6,
+        8 to 26,
+        9 to 14,
+        10 to 4,
+        11 to 15,
+        12 to 24,
+        13 to 25,
+        14 to 7,
+        15 to 23,
+        16 to 22,
+        17 to 21,
+        18 to 18,
+        19 to 46,
+        20 to 29,
+        21 to 0,
+        22 to 3,
+        23 to 2,
+        24 to 16,
+        25 to 12,
+        26 to 11,
+        27 to 20,
+        28 to 8,
+        29 to 5,
+        30 to 10,
         31 to 30
 
 
@@ -263,7 +310,23 @@ class MainActivity : BaseActivity(), MessageListener {
                 val keyBoardEvent: KeyBoardEvent = message.obj as KeyBoardEvent
                 val keyCode: Byte = keyBoardEvent.getKeyCode()
                 val code = keyCode.toUInt().toInt()
-                val mm: Int? = keyMap.get(code);
+                Log.e("outputKey",code.toString())
+
+                if(code==24){
+                    keySwitch=!keySwitch;
+                    if(keySwitch){
+                        indicator.text="下"
+                    }else{
+                        indicator.text="上"
+                    }
+                    return@post
+                }
+
+                val mm: Int? = if(keySwitch){
+                    keyMapDown.get(code)
+                }else{
+                    keyMapUp.get(code)
+                }
                 mm?.let {
                     TouchHandler.GUIPressKey(it)
                     TouchHandler.GUIPressKey(-1)
