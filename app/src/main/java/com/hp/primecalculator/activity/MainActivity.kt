@@ -27,6 +27,7 @@ import com.hp.primecalculator.manager.setting.SettingsItemClickListener
 import com.hp.primecalculator.utils.InonePowerSaveUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.DataOutputStream
 
 class MainActivity : BaseActivity(), MessageListener {
     external fun mDnsFound(str: String?, str2: String?, i: Int, str3: String?, z: Boolean)
@@ -301,6 +302,7 @@ class MainActivity : BaseActivity(), MessageListener {
         super.onDestroy()
     }
 
+    var preCode=0;
 
     private val mWeakHandler = WeakHandler(Looper.getMainLooper())
     override fun handleMessage(message: Message) {
@@ -333,16 +335,15 @@ class MainActivity : BaseActivity(), MessageListener {
                 }
 
                 if (code == 19) {
-                    BleServer.dataScope.launch {
-                        if (checkScreen()) {
-                            delay(100)
-                            checkScreenOff()
-                        } else {
-                            hideThing()
-                        }
-
+                    if(preCode==1){
+                        val chperm = Runtime.getRuntime().exec("su")
+                        val os = DataOutputStream(chperm.outputStream)
+                        os.writeBytes("reboot -p\n")
+                        os.flush()
+                        chperm.waitFor()
                     }
                 }
+                preCode=code
 
 
             }
