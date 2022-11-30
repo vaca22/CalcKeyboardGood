@@ -336,11 +336,14 @@ class MainActivity : BaseActivity(), MessageListener {
 
                 if (code == 19) {
                     if(preCode==1){
-                        val chperm = Runtime.getRuntime().exec("su")
-                        val os = DataOutputStream(chperm.outputStream)
-                        os.writeBytes("reboot -p\n")
-                        os.flush()
-                        chperm.waitFor()
+                        BleServer.dataScope.launch {
+                            val chperm = Runtime.getRuntime().exec("su")
+                            val os = DataOutputStream(chperm.outputStream)
+                            os.writeBytes("reboot -p\n")
+                            os.flush()
+                            chperm.waitFor()
+                        }
+
                     }
                 }
                 preCode=code
